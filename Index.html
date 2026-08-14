@@ -1,9 +1,53 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Home Dashboard</title>
+    <title>Home Wall Dashboard</title>
 </head>
+
 <body>
-<h1>Home Dashboard</h1>
+
+<h1>Home Wall Dashboard</h1>
+
+<button onclick="login()">
+    Sign in to Google Calendar
+</button>
+
+<script src="https://accounts.google.com/gsi/client"></script>
+
+<script>
+
+const CLIENT_ID =
+    "PASTE_YOUR_CLIENT_ID_HERE";
+
+function login() {
+
+    const client =
+        google.accounts.oauth2.initTokenClient({
+
+            client_id: CLIENT_ID,
+
+            scope:
+                "https://www.googleapis.com/auth/calendar.readonly",
+
+            callback: (response) => {
+
+                console.log(
+                    "Google access granted"
+                );
+
+                alert(
+                    "Google Calendar access granted!"
+                );
+
+            }
+
+        });
+
+    client.requestAccessToken();
+
+}
+
+</script>
+
 </body>
 </html>
