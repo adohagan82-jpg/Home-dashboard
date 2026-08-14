@@ -1,53 +1,56 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home Wall Dashboard</title>
 </head>
 
 <body>
 
-<h1>Home Wall Dashboard</h1>
+    <h1>Home Wall Dashboard</h1>
 
-<button onclick="login()">
-    Sign in to Google Calendar
-</button>
+    <button onclick="login()">
+        Sign in to Google Calendar
+    </button>
 
-<script src="https://accounts.google.com/gsi/client"></script>
+    <script src="https://accounts.google.com/gsi/client"></script>
 
-<script>
+    <script>
 
-const CLIENT_ID =
-    "72191431208-jja4m5r8kdkndatn8ee2qgmnlgum8eeh.apps.googleusercontent.com";
+        const CLIENT_ID =
+            "72191431208-jja4m5r8kdkndatn8ee2qgmnlgum8eeh.apps.googleusercontent.com";
 
-function login() {
+        function login() {
 
-    const client =
-        google.accounts.oauth2.initTokenClient({
+            const client =
+                google.accounts.oauth2.initTokenClient({
 
-            client_id: CLIENT_ID,
+                    client_id: CLIENT_ID,
 
-            scope:
-                "https://www.googleapis.com/auth/calendar.readonly",
+                    scope:
+                        "https://www.googleapis.com/auth/calendar.readonly",
 
-            callback: (response) => {
+                    callback: function(response) {
 
-                console.log(
-                    "Google access granted"
-                );
+                        console.log(
+                            "Google access granted",
+                            response
+                        );
 
-                alert(
-                    "Google Calendar access granted!"
-                );
+                        alert(
+                            "Google Calendar access granted!"
+                        );
 
-            }
+                    }
 
-        });
+                });
 
-    client.requestAccessToken();
+            client.requestAccessToken();
 
-}
+        }
 
-</script>
+    </script>
 
 </body>
 </html>
