@@ -3,396 +3,383 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#111827">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
 
 <title>Home Wall Dashboard</title>
 
+<link rel="manifest" href="./manifest.json">
+
 <style>
+*{box-sizing:border-box}
 
-* {
-    box-sizing: border-box;
+html,body{
+    margin:0;
+    width:100%;
+    height:100%;
+    font-family:Arial,sans-serif;
+    background:#111827;
+    color:white;
+    overflow:hidden;
 }
 
-html, body {
-    margin: 0;
-    width: 100%;
-    height: 100%;
-    font-family: Arial, sans-serif;
-    background: #111827;
-    color: white;
-    overflow: hidden;
+.dashboard{
+    width:100vw;
+    height:100vh;
+    display:grid;
+    grid-template-columns:22% 56% 22%;
+    gap:8px;
+    padding:8px;
 }
 
-.dashboard {
-    width: 100vw;
-    height: 100vh;
-    display: grid;
-    grid-template-columns: 22% 56% 22%;
-    gap: 8px;
-    padding: 8px;
-    transition: opacity .5s;
+.card{
+    background:#1f2937;
+    border-radius:16px;
+    padding:16px;
 }
 
-.card {
-    background: #1f2937;
-    border-radius: 16px;
-    padding: 16px;
+.left-panel{
+    overflow:hidden;
 }
 
-/* CLOCK */
-
-.left-panel {
-    overflow: hidden;
+.clock{
+    text-align:center;
+    padding-top:20px;
 }
 
-.clock {
-    text-align: center;
-    padding-top: 20px;
+.time{
+    font-size:clamp(45px,5vw,75px);
+    font-weight:bold;
 }
 
-.time {
-    font-size: clamp(45px,5vw,75px);
-    font-weight: bold;
+.date{
+    font-size:clamp(17px,1.8vw,24px);
+    color:#d1d5db;
+    margin-top:10px;
 }
 
-.date {
-    font-size: clamp(17px,1.8vw,24px);
-    color: #d1d5db;
-    margin-top: 10px;
+.weather{
+    margin-top:25px;
 }
 
-/* WEATHER */
-
-.weather {
-    margin-top: 25px;
+.weather-title{
+    font-size:21px;
+    font-weight:bold;
+    margin-bottom:12px;
 }
 
-.weather-title {
-    font-size: 21px;
-    font-weight: bold;
-    margin-bottom: 12px;
+.weather-days{
+    display:flex;
+    flex-direction:column;
+    gap:7px;
 }
 
-.weather-days {
-    display: flex;
-    flex-direction: column;
-    gap: 7px;
+.weather-day{
+    background:#374151;
+    border-radius:10px;
+    padding:9px;
+    display:grid;
+    grid-template-columns:45px 1fr 60px;
+    align-items:center;
 }
 
-.weather-day {
-    background: #374151;
-    border-radius: 10px;
-    padding: 9px;
-    display: grid;
-    grid-template-columns: 45px 1fr 60px;
-    align-items: center;
+.weather-icon{
+    font-size:27px;
+    text-align:center;
 }
 
-.weather-icon {
-    font-size: 27px;
-    text-align: center;
+.weather-name{
+    font-size:15px;
 }
 
-.weather-name {
-    font-size: 15px;
+.weather-temp{
+    text-align:right;
+    font-weight:bold;
 }
 
-.weather-temp {
-    text-align: right;
-    font-weight: bold;
+.weather-extra{
+    grid-column:2/4;
+    font-size:12px;
+    color:#cbd5e1;
 }
 
-.weather-extra {
-    grid-column: 2 / 4;
-    font-size: 12px;
-    color: #cbd5e1;
+.calendar{
+    display:flex;
+    flex-direction:column;
+    min-width:0;
 }
 
-/* CALENDAR */
-
-.calendar {
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
+.card-title{
+    font-size:24px;
+    font-weight:bold;
+    margin-bottom:12px;
 }
 
-.card-title {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 12px;
+.calendar-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:10px;
 }
 
-.calendar-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
+button{
+    border:0;
+    border-radius:8px;
+    color:white;
+    background:#374151;
+    cursor:pointer;
 }
 
-.calendar-button {
-    background: #374151;
-    padding: 8px 12px;
-    font-size: 16px;
+.calendar-button{
+    padding:8px 12px;
+    font-size:16px;
 }
 
-.calendar-month {
-    font-size: 20px;
-    font-weight: bold;
+.calendar-month{
+    font-size:20px;
+    font-weight:bold;
 }
 
-.calendar-grid {
-    flex: 1;
-    display: grid;
-    grid-template-columns: repeat(7,1fr);
-    grid-template-rows: 30px repeat(6,1fr);
-    gap: 4px;
-    min-height: 0;
+.calendar-grid{
+    flex:1;
+    display:grid;
+    grid-template-columns:repeat(7,1fr);
+    grid-template-rows:30px repeat(6,1fr);
+    gap:4px;
+    min-height:0;
 }
 
-.weekday {
-    text-align: center;
-    color: #9ca3af;
-    font-weight: bold;
-    padding: 5px;
+.weekday{
+    text-align:center;
+    color:#9ca3af;
+    font-weight:bold;
+    padding:5px;
 }
 
-.calendar-cell {
-    background: #374151;
-    border-radius: 8px;
-    padding: 6px;
-    overflow: hidden;
-    min-width: 0;
+.calendar-cell{
+    background:#374151;
+    border-radius:8px;
+    padding:6px;
+    overflow:hidden;
+    min-width:0;
 }
 
-.calendar-cell.today {
-    outline: 2px solid #60a5fa;
+.calendar-cell.today{
+    outline:2px solid #60a5fa;
 }
 
-.day-number {
-    font-weight: bold;
-    font-size: 14px;
+.day-number{
+    font-weight:bold;
+    font-size:14px;
 }
 
-.event {
-    margin-top: 4px;
-    background: #2563eb;
-    border-radius: 5px;
-    padding: 3px 5px;
-    font-size: 11px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+.event{
+    margin-top:4px;
+    background:#2563eb;
+    border-radius:5px;
+    padding:3px 5px;
+    font-size:11px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
 }
 
-.no-calendar {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #374151;
-    border-radius: 12px;
-    text-align: center;
-    color: #d1d5db;
+.no-calendar{
+    flex:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#374151;
+    border-radius:12px;
+    text-align:center;
+    color:#d1d5db;
 }
 
-/* RIGHT */
-
-.right-panel {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    min-width: 0;
+.right-panel{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    min-width:0;
 }
 
-.notes {
-    flex: 1;
-    min-height: 0;
-    display: flex;
-    flex-direction: column;
+.notes{
+    flex:1;
+    min-height:0;
+    display:flex;
+    flex-direction:column;
 }
 
-textarea {
-    width: 100%;
-    height: 90px;
-    resize: none;
-    border: none;
-    border-radius: 10px;
-    padding: 12px;
-    font-size: 16px;
-    background: #374151;
-    color: white;
+textarea{
+    width:100%;
+    height:90px;
+    resize:none;
+    border:0;
+    border-radius:10px;
+    padding:12px;
+    font-size:16px;
+    background:#374151;
+    color:white;
 }
 
-.add-button {
-    padding: 11px;
-    margin-top: 8px;
-    background: #2563eb;
-    font-size: 16px;
+.add-button{
+    padding:11px;
+    margin-top:8px;
+    background:#2563eb;
+    font-size:16px;
 }
 
-#notesList {
-    margin-top: 10px;
-    overflow-y: auto;
+#notesList{
+    margin-top:10px;
+    overflow-y:auto;
 }
 
-.note {
-    background: #374151;
-    border-radius: 10px;
-    padding: 9px;
-    margin-bottom: 7px;
-    display: flex;
-    gap: 8px;
+.note{
+    background:#374151;
+    border-radius:10px;
+    padding:9px;
+    margin-bottom:7px;
+    display:flex;
+    gap:8px;
 }
 
-.note-text {
-    flex: 1;
-    word-break: break-word;
+.note-text{
+    flex:1;
+    word-break:break-word;
 }
 
-.delete {
-    background: #4b5563;
-    padding: 5px 9px;
+.delete{
+    padding:5px 9px;
 }
 
-/* RING */
-
-.ring {
-    height: 25%;
-    display: flex;
-    flex-direction: column;
+.ring{
+    height:25%;
+    display:flex;
+    flex-direction:column;
 }
 
-.ring-button {
-    flex: 1;
-    background: #374151;
-    font-size: 22px;
-    font-weight: bold;
+.ring-button{
+    flex:1;
+    background:#374151;
+    font-size:22px;
+    font-weight:bold;
 }
 
-.ring-small {
-    display: block;
-    font-size: 13px;
-    color: #d1d5db;
-    margin-top: 8px;
+.ring-small{
+    display:block;
+    font-size:13px;
+    color:#d1d5db;
+    margin-top:8px;
 }
 
-/* SETTINGS */
-
-.settings-button {
-    position: fixed;
-    right: 15px;
-    bottom: 10px;
-    z-index: 100;
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    background: #374151;
-    font-size: 22px;
+.settings-button{
+    position:fixed;
+    right:15px;
+    bottom:10px;
+    z-index:100;
+    width:45px;
+    height:45px;
+    border-radius:50%;
+    background:#374151;
+    font-size:22px;
 }
 
-.settings-overlay {
-    position: fixed;
-    inset: 0;
-    z-index: 200;
-    background: #000b;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
+.settings-overlay{
+    position:fixed;
+    inset:0;
+    z-index:200;
+    background:#000b;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
 }
 
-.settings-panel {
-    width: min(600px,95vw);
-    max-height: 90vh;
-    overflow-y: auto;
-    background: #1f2937;
-    border-radius: 18px;
-    padding: 22px;
+.settings-panel{
+    width:min(650px,95vw);
+    max-height:90vh;
+    overflow-y:auto;
+    background:#1f2937;
+    border-radius:18px;
+    padding:22px;
 }
 
-.setting-section {
-    background: #374151;
-    border-radius: 12px;
-    padding: 15px;
-    margin-top: 12px;
+.setting-section{
+    background:#374151;
+    border-radius:12px;
+    padding:15px;
+    margin-top:12px;
 }
 
-.setting-section h3 {
-    margin-top: 0;
+.setting-section h3{
+    margin-top:0;
 }
 
-.setting-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-    margin: 10px 0;
+.setting-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin:10px 0;
 }
 
 input[type=time],
-input[type=text] {
-    background: #111827;
-    color: white;
-    border: 1px solid #6b7280;
-    border-radius: 8px;
-    padding: 8px;
-    font-size: 16px;
+input[type=text]{
+    background:#111827;
+    color:white;
+    border:1px solid #6b7280;
+    border-radius:8px;
+    padding:8px;
+    font-size:16px;
 }
 
-input[type=range] {
-    width: 150px;
+input[type=range]{
+    width:150px;
 }
 
-.close-settings {
-    width: 100%;
-    background: #2563eb;
-    padding: 12px;
-    margin-top: 15px;
-    font-size: 16px;
+.sign-in{
+    background:#059669;
+    padding:10px 14px;
+    font-size:16px;
 }
 
-.calendar-setting {
-    background: #1f2937;
-    padding: 10px;
-    border-radius: 9px;
-    margin-bottom: 7px;
+.account{
+    background:#1f2937;
+    border-radius:10px;
+    padding:12px;
+    margin-top:10px;
 }
 
-.calendar-setting small {
-    color: #9ca3af;
+.account-title{
+    font-weight:bold;
+    margin-bottom:8px;
 }
 
-.sign-in {
-    background: #059669;
-    padding: 10px 14px;
-    font-size: 16px;
+.calendar-setting{
+    background:#374151;
+    padding:9px;
+    border-radius:8px;
+    margin-top:6px;
 }
 
-.remove-calendar {
-    float: right;
-    background: #991b1b;
-    padding: 5px 8px;
+.close-settings{
+    width:100%;
+    background:#2563eb;
+    padding:12px;
+    margin-top:15px;
+    font-size:16px;
 }
 
-/* DIM */
-
-body.dimmed .dashboard {
-    opacity: .18;
+body.dimmed .dashboard{
+    opacity:.18;
 }
 
-body.dimmed .settings-button {
-    opacity: .05;
-}
-
-/* MOBILE */
-
-@media(max-width:800px) {
-
-    .dashboard {
-        grid-template-columns: 1fr 1fr;
+@media(max-width:800px){
+    .dashboard{
+        grid-template-columns:1fr 1fr;
     }
-
 }
-
 </style>
 </head>
 
@@ -401,19 +388,11 @@ body.dimmed .settings-button {
 <div class="dashboard">
 
 <!-- LEFT -->
-
 <div class="card left-panel">
 
     <div class="clock">
-
-        <div class="time" id="time">
-            12:00 AM
-        </div>
-
-        <div class="date" id="date">
-            Loading...
-        </div>
-
+        <div class="time" id="time">12:00 AM</div>
+        <div class="date" id="date">Loading...</div>
     </div>
 
     <div class="weather">
@@ -422,7 +401,7 @@ body.dimmed .settings-button {
             🌤️ Whitehaven Weather
         </div>
 
-        <div id="weatherDays">
+        <div class="weather-days" id="weatherDays">
             Loading weather...
         </div>
 
@@ -432,7 +411,6 @@ body.dimmed .settings-button {
 
 
 <!-- CALENDAR -->
-
 <div class="card calendar">
 
     <div class="card-title">
@@ -442,19 +420,13 @@ body.dimmed .settings-button {
     <div class="calendar-header">
 
         <button class="calendar-button"
-                onclick="changeMonth(-1)">
-            ◀
-        </button>
+                onclick="changeMonth(-1)">◀</button>
 
         <div class="calendar-month"
-             id="calendarMonth">
-            Calendar
-        </div>
+             id="calendarMonth"></div>
 
         <button class="calendar-button"
-                onclick="changeMonth(1)">
-            ▶
-        </button>
+                onclick="changeMonth(1)">▶</button>
 
     </div>
 
@@ -462,7 +434,7 @@ body.dimmed .settings-button {
          class="calendar-grid">
 
         <div class="no-calendar">
-            Sign in through Settings
+            Hold ⚙️ and sign in to Google Calendar
         </div>
 
     </div>
@@ -471,7 +443,6 @@ body.dimmed .settings-button {
 
 
 <!-- RIGHT -->
-
 <div class="right-panel">
 
     <div class="card notes">
@@ -520,103 +491,88 @@ body.dimmed .settings-button {
 </div>
 
 
-<button
-    class="settings-button"
-    id="settingsButton">
-
+<button class="settings-button"
+        id="settingsButton">
     ⚙️
-
 </button>
 
 
 <!-- SETTINGS -->
-
-<div
-    class="settings-overlay"
-    id="settingsOverlay">
+<div class="settings-overlay"
+     id="settingsOverlay">
 
     <div class="settings-panel">
 
         <h2>⚙️ Dashboard Settings</h2>
 
+
+        <!-- GOOGLE -->
         <div class="setting-section">
 
-            <h3>📅 Google Calendar</h3>
+            <h3>📅 Google Calendars</h3>
+
+            <p style="color:#d1d5db">
+                Add as many Google accounts as you need.
+            </p>
 
             <button
                 class="sign-in"
-                onclick="signInGoogle()">
+                onclick="addGoogleAccount()">
 
-                🔐 Sign in / Refresh Calendars
+                ➕ Add Google Account
 
             </button>
 
-            <div
-                id="calendarSettings"
-                style="margin-top:12px;">
-            </div>
+            <div id="accounts"></div>
 
         </div>
 
 
+        <!-- NIGHT MODE -->
         <div class="setting-section">
 
             <h3>🌙 Night Mode</h3>
 
             <div class="setting-row">
-
                 <span>Enable</span>
 
-                <input
-                    type="checkbox"
-                    id="nightEnabled"
-                    onchange="saveSettings()">
-
+                <input type="checkbox"
+                       id="nightEnabled"
+                       onchange="saveSettings()">
             </div>
 
             <div class="setting-row">
-
                 <span>Dim starts</span>
 
-                <input
-                    type="time"
-                    id="nightStart"
-                    onchange="saveSettings()">
-
+                <input type="time"
+                       id="nightStart"
+                       onchange="saveSettings()">
             </div>
 
             <div class="setting-row">
-
                 <span>Dim ends</span>
 
-                <input
-                    type="time"
-                    id="nightEnd"
-                    onchange="saveSettings()">
-
+                <input type="time"
+                       id="nightEnd"
+                       onchange="saveSettings()">
             </div>
 
             <div class="setting-row">
-
                 <span>Dim level</span>
 
-                <input
-                    type="range"
-                    id="dimLevel"
-                    min="5"
-                    max="80"
-                    onchange="saveSettings()">
-
+                <input type="range"
+                       id="dimLevel"
+                       min="5"
+                       max="80"
+                       onchange="saveSettings()">
             </div>
 
             <div class="setting-row">
-
                 <span>Wake duration</span>
 
-                <select
-                    id="wakeDuration"
-                    onchange="saveSettings()"
-                    style="background:#111827;color:white;padding:8px;border-radius:8px;">
+                <select id="wakeDuration"
+                        onchange="saveSettings()"
+                        style="background:#111827;color:white;padding:8px;border-radius:8px">
 
                     <option value="10">10 seconds</option>
                     <option value="30">30 seconds</option>
@@ -624,18 +580,13 @@ body.dimmed .settings-button {
                     <option value="120">2 minutes</option>
 
                 </select>
-
             </div>
 
         </div>
 
-
-        <button
-            class="close-settings"
-            onclick="closeSettings()">
-
+        <button class="close-settings"
+                onclick="closeSettings()">
             Done
-
         </button>
 
     </div>
@@ -645,122 +596,120 @@ body.dimmed .settings-button {
 
 <script src="https://accounts.google.com/gsi/client"></script>
 
-
 <script>
 
 /* =====================================================
-GOOGLE CLIENT
+GOOGLE
 ===================================================== */
 
 const CLIENT_ID =
-    "72191431208-jja4m5r8kdkndatn8ee2qgmnlgum8eeh.apps.googleusercontent.com";
+    "PASTE_YOUR_CLIENT_ID_HERE";
 
 const CALENDAR_SCOPE =
     "https://www.googleapis.com/auth/calendar.readonly";
 
-let accessToken = null;
 
-let calendars = [];
+/*
+ Each account has:
 
-let selectedCalendars =
-    JSON.parse(
-        localStorage.getItem(
-            "selectedCalendars"
-        ) || "[]"
-    );
+ {
+   id,
+   token,
+   calendars: [],
+   selected: []
+ }
+*/
 
-
-/* =====================================================
-CLOCK
-===================================================== */
-
-function updateClock() {
-
-    const now = new Date();
-
-    document.getElementById("time").textContent =
-        now.toLocaleTimeString("en-GB", {
-            hour: "numeric",
-            minute: "2-digit",
-            hour12: true
-        });
-
-    document.getElementById("date").textContent =
-        now.toLocaleDateString("en-GB", {
-            weekday: "long",
-            day: "numeric",
-            month: "long",
-            year: "numeric"
-        });
-}
-
-updateClock();
-
-setInterval(updateClock,1000);
+let googleAccounts = [];
 
 
-/* =====================================================
-GOOGLE LOGIN
-===================================================== */
+async function addGoogleAccount(){
 
-function signInGoogle() {
+    if(!window.google){
+
+        alert("Google sign-in is still loading.");
+        return;
+
+    }
 
     const client =
         google.accounts.oauth2.initTokenClient({
 
-            client_id: CLIENT_ID,
+            client_id:CLIENT_ID,
 
-            scope: CALENDAR_SCOPE,
+            scope:CALENDAR_SCOPE,
 
-            callback: async function(response) {
+            callback:async function(response){
 
-                if (response.error) {
+                if(response.error){
 
                     alert(
                         "Google sign-in failed."
                     );
 
                     return;
+
                 }
 
-                accessToken =
-                    response.access_token;
+                const account = {
 
-                await loadCalendars();
+                    id:
+                        "account-" +
+                        Date.now(),
+
+                    token:
+                        response.access_token,
+
+                    calendars:[],
+
+                    selected:[]
+
+                };
+
+                googleAccounts.push(account);
+
+                await loadAccountCalendars(account);
+
+                displayAccounts();
+
+                await loadAllEvents();
 
             }
 
         });
 
-    client.requestAccessToken();
+    /*
+      This forces Google to show the account chooser,
+      allowing another Google account to be added.
+    */
+
+    client.requestAccessToken({
+        prompt:"select_account"
+    });
 
 }
 
 
-/* =====================================================
-LOAD CALENDARS
-===================================================== */
+async function loadAccountCalendars(account){
 
-async function loadCalendars() {
-
-    try {
+    try{
 
         const response =
             await fetch(
                 "https://www.googleapis.com/calendar/v3/users/me/calendarList",
                 {
-                    headers: {
+                    headers:{
                         Authorization:
                             "Bearer " +
-                            accessToken
+                            account.token
                     }
                 }
             );
 
-        if (!response.ok) {
+        if(!response.ok){
 
             throw new Error(
-                "Calendar request failed"
+                "Calendar access failed"
             );
 
         }
@@ -768,32 +717,20 @@ async function loadCalendars() {
         const data =
             await response.json();
 
-        calendars =
+        account.calendars =
             data.items || [];
 
-        if (
-            selectedCalendars.length === 0
-        ) {
+        account.selected =
+            account.calendars.map(
+                calendar => calendar.id
+            );
 
-            selectedCalendars =
-                calendars.map(
-                    c => c.id
-                );
-
-            saveCalendarChoices();
-
-        }
-
-        displayCalendarSettings();
-
-        await loadEvents();
-
-    } catch(error) {
+    }catch(error){
 
         console.error(error);
 
         alert(
-            "I couldn't access your Google Calendars."
+            "I couldn't load this Google account's calendars."
         );
 
     }
@@ -801,52 +738,153 @@ async function loadCalendars() {
 }
 
 
-/* =====================================================
-CALENDAR SETTINGS
-===================================================== */
+function displayAccounts(){
 
-function displayCalendarSettings() {
-
-    const box =
+    const container =
         document.getElementById(
-            "calendarSettings"
+            "accounts"
         );
 
-    box.innerHTML = "";
+    container.innerHTML = "";
 
-    calendars.forEach(
-        function(calendar) {
+    googleAccounts.forEach(
+        function(account,index){
 
-            const row =
-                document.createElement("div");
-
-            row.className =
-                "calendar-setting";
-
-            const checked =
-                selectedCalendars.includes(
-                    calendar.id
+            const box =
+                document.createElement(
+                    "div"
                 );
 
-            row.innerHTML = `
+            box.className =
+                "account";
 
-                <label>
+            box.innerHTML =
+                `<div class="account-title">
+                    Google Account ${index+1}
+                </div>`;
 
-                    <input
-                        type="checkbox"
-                        ${checked ? "checked" : ""}
-                        onchange="toggleCalendar('${encodeURIComponent(calendar.id)}')">
+            const remove =
+                document.createElement(
+                    "button"
+                );
 
-                    ${escapeHTML(
-                        calendar.summary ||
-                        "Calendar"
-                    )}
+            remove.textContent =
+                "Remove account";
 
-                </label>
+            remove.style.background =
+                "#991b1b";
 
-            `;
+            remove.style.padding =
+                "7px";
 
-            box.appendChild(row);
+            remove.onclick =
+                function(){
+
+                    googleAccounts.splice(
+                        index,
+                        1
+                    );
+
+                    displayAccounts();
+
+                    loadAllEvents();
+
+                };
+
+            box.appendChild(remove);
+
+
+            account.calendars.forEach(
+                function(calendar){
+
+                    const row =
+                        document.createElement(
+                            "div"
+                        );
+
+                    row.className =
+                        "calendar-setting";
+
+                    const label =
+                        document.createElement(
+                            "label"
+                        );
+
+                    const checkbox =
+                        document.createElement(
+                            "input"
+                        );
+
+                    checkbox.type =
+                        "checkbox";
+
+                    checkbox.checked =
+                        account.selected.includes(
+                            calendar.id
+                        );
+
+                    checkbox.onchange =
+                        function(){
+
+                            if(
+                                checkbox.checked
+                            ){
+
+                                if(
+                                    !account.selected.includes(
+                                        calendar.id
+                                    )
+                                ){
+
+                                    account.selected.push(
+                                        calendar.id
+                                    );
+
+                                }
+
+                            }else{
+
+                                account.selected =
+                                    account.selected.filter(
+                                        id =>
+                                        id !==
+                                        calendar.id
+                                    );
+
+                            }
+
+                            loadAllEvents();
+
+                        };
+
+                    label.appendChild(
+                        checkbox
+                    );
+
+                    label.appendChild(
+                        document.createTextNode(
+                            " " +
+                            (
+                                calendar.summary ||
+                                "Calendar"
+                            )
+                        )
+                    );
+
+                    row.appendChild(
+                        label
+                    );
+
+                    box.appendChild(
+                        row
+                    );
+
+                }
+            );
+
+            container.appendChild(
+                box
+            );
 
         }
     );
@@ -854,158 +892,108 @@ function displayCalendarSettings() {
 }
 
 
-function toggleCalendar(encodedId) {
-
-    const id =
-        decodeURIComponent(encodedId);
-
-    if (
-        selectedCalendars.includes(id)
-    ) {
-
-        selectedCalendars =
-            selectedCalendars.filter(
-                x => x !== id
-            );
-
-    } else {
-
-        selectedCalendars.push(id);
-
-    }
-
-    saveCalendarChoices();
-
-    loadEvents();
-
-}
-
-
-function saveCalendarChoices() {
-
-    localStorage.setItem(
-        "selectedCalendars",
-        JSON.stringify(
-            selectedCalendars
-        )
-    );
-
-}
-
-
-/* =====================================================
-MONTH
-===================================================== */
+let events = [];
 
 let displayedMonth =
     new Date();
 
-let events = [];
 
-
-function changeMonth(amount) {
-
-    displayedMonth.setMonth(
-        displayedMonth.getMonth() +
-        amount
-    );
-
-    loadEvents();
-
-}
-
-
-/* =====================================================
-LOAD EVENTS
-===================================================== */
-
-async function loadEvents() {
-
-    if (
-        !accessToken ||
-        selectedCalendars.length === 0
-    ) {
-
-        drawCalendar();
-
-        return;
-    }
+async function loadAllEvents(){
 
     events = [];
 
-    const year =
-        displayedMonth.getFullYear();
+    for(
+        const account
+        of googleAccounts
+    ){
 
-    const month =
-        displayedMonth.getMonth();
+        for(
+            const calendarId
+            of account.selected
+        ){
 
-    const start =
-        new Date(
-            year,
-            month,
-            1
-        ).toISOString();
+            try{
 
-    const end =
-        new Date(
-            year,
-            month + 1,
-            1
-        ).toISOString();
+                const year =
+                    displayedMonth.getFullYear();
+
+                const month =
+                    displayedMonth.getMonth();
+
+                const start =
+                    new Date(
+                        year,
+                        month,
+                        1
+                    ).toISOString();
+
+                const end =
+                    new Date(
+                        year,
+                        month+1,
+                        1
+                    ).toISOString();
+
+                const url =
+                    "https://www.googleapis.com/calendar/v3/calendars/" +
+                    encodeURIComponent(
+                        calendarId
+                    ) +
+                    "/events" +
+                    "?singleEvents=true" +
+                    "&orderBy=startTime" +
+                    "&timeMin=" +
+                    encodeURIComponent(start) +
+                    "&timeMax=" +
+                    encodeURIComponent(end) +
+                    "&maxResults=250";
 
 
-    for (
-        const calendarId
-        of selectedCalendars
-    ) {
-
-        try {
-
-            const url =
-                "https://www.googleapis.com/calendar/v3/calendars/" +
-                encodeURIComponent(calendarId) +
-                "/events" +
-                "?singleEvents=true" +
-                "&orderBy=startTime" +
-                "&timeMin=" +
-                encodeURIComponent(start) +
-                "&timeMax=" +
-                encodeURIComponent(end) +
-                "&maxResults=250";
-
-            const response =
-                await fetch(
-                    url,
-                    {
-                        headers: {
-                            Authorization:
-                                "Bearer " +
-                                accessToken
+                const response =
+                    await fetch(
+                        url,
+                        {
+                            headers:{
+                                Authorization:
+                                    "Bearer " +
+                                    account.token
+                            }
                         }
-                    }
-                );
+                    );
 
-            if (!response.ok)
-                continue;
 
-            const data =
-                await response.json();
+                if(!response.ok)
+                    continue;
 
-            (data.items || []).forEach(
-                event => {
 
-                    events.push({
-                        ...event,
-                        calendarId:
-                            calendarId
-                    });
+                const data =
+                    await response.json();
 
-                }
-            );
 
-        } catch(error) {
+                (data.items || [])
+                    .forEach(
+                        event => {
 
-            console.error(error);
+                            events.push({
+                                ...event,
+
+                                account:
+                                    account.id,
+
+                                calendarId:
+                                    calendarId
+
+                            });
+
+                        }
+                    );
+
+
+            }catch(error){
+
+                console.error(error);
+
+            }
 
         }
 
@@ -1016,11 +1004,19 @@ async function loadEvents() {
 }
 
 
-/* =====================================================
-DRAW CALENDAR
-===================================================== */
+function changeMonth(amount){
 
-function drawCalendar() {
+    displayedMonth.setMonth(
+        displayedMonth.getMonth() +
+        amount
+    );
+
+    loadAllEvents();
+
+}
+
+
+function drawCalendar(){
 
     const grid =
         document.getElementById(
@@ -1035,30 +1031,28 @@ function drawCalendar() {
     const month =
         displayedMonth.getMonth();
 
+
     document.getElementById(
         "calendarMonth"
     ).textContent =
         displayedMonth.toLocaleDateString(
             "en-GB",
             {
-                month: "long",
-                year: "numeric"
+                month:"long",
+                year:"numeric"
             }
         );
 
 
-    const weekdays =
-        [
-            "Mon",
-            "Tue",
-            "Wed",
-            "Thu",
-            "Fri",
-            "Sat",
-            "Sun"
-        ];
-
-    weekdays.forEach(
+    [
+        "Mon",
+        "Tue",
+        "Wed",
+        "Thu",
+        "Fri",
+        "Sat",
+        "Sun"
+    ].forEach(
         day => {
 
             const cell =
@@ -1078,35 +1072,35 @@ function drawCalendar() {
     );
 
 
-    const firstDay =
+    const first =
         new Date(
             year,
             month,
             1
         );
 
-    let startingDay =
-        firstDay.getDay();
+    let start =
+        first.getDay();
 
-    startingDay =
-        startingDay === 0
+    start =
+        start === 0
         ? 6
-        : startingDay - 1;
+        : start-1;
 
 
-    const daysInMonth =
+    const days =
         new Date(
             year,
-            month + 1,
+            month+1,
             0
         ).getDate();
 
 
-    for (
-        let i = 0;
-        i < startingDay;
+    for(
+        let i=0;
+        i<start;
         i++
-    ) {
+    ){
 
         const blank =
             document.createElement(
@@ -1116,7 +1110,9 @@ function drawCalendar() {
         blank.className =
             "calendar-cell";
 
-        grid.appendChild(blank);
+        grid.appendChild(
+            blank
+        );
 
     }
 
@@ -1125,11 +1121,11 @@ function drawCalendar() {
         new Date();
 
 
-    for (
-        let day = 1;
-        day <= daysInMonth;
+    for(
+        let day=1;
+        day<=days;
         day++
-    ) {
+    ){
 
         const cell =
             document.createElement(
@@ -1140,11 +1136,11 @@ function drawCalendar() {
             "calendar-cell";
 
 
-        if (
+        if(
             day === today.getDate() &&
             month === today.getMonth() &&
             year === today.getFullYear()
-        ) {
+        ){
 
             cell.classList.add(
                 "today"
@@ -1164,31 +1160,29 @@ function drawCalendar() {
         number.textContent =
             day;
 
-        cell.appendChild(number);
+        cell.appendChild(
+            number
+        );
 
 
-        const dayEvents =
-            events.filter(
+        events
+            .filter(
                 event => {
 
-                    const start =
-                        event.start.dateTime ||
-                        event.start.date;
-
                     const date =
-                        new Date(start);
+                        new Date(
+                            event.start.dateTime ||
+                            event.start.date
+                        );
 
-                    return (
+                    return(
                         date.getFullYear() === year &&
                         date.getMonth() === month &&
                         date.getDate() === day
                     );
 
                 }
-            );
-
-
-        dayEvents
+            )
             .slice(0,4)
             .forEach(
                 event => {
@@ -1201,31 +1195,32 @@ function drawCalendar() {
                     item.className =
                         "event";
 
+                    const date =
+                        new Date(
+                            event.start.dateTime ||
+                            event.start.date
+                        );
+
                     let title =
                         event.summary ||
                         "(No title)";
 
-                    if (
-                        event.start.dateTime
-                    ) {
 
-                        const time =
-                            new Date(
-                                event.start.dateTime
-                            ).toLocaleTimeString(
+                    if(event.start.dateTime){
+
+                        title =
+                            date.toLocaleTimeString(
                                 "en-GB",
                                 {
                                     hour:"numeric",
                                     minute:"2-digit"
                                 }
-                            );
-
-                        title =
-                            time +
+                            ) +
                             " " +
                             title;
 
                     }
+
 
                     item.textContent =
                         title;
@@ -1233,13 +1228,17 @@ function drawCalendar() {
                     item.title =
                         title;
 
-                    cell.appendChild(item);
+                    cell.appendChild(
+                        item
+                    );
 
                 }
             );
 
 
-        grid.appendChild(cell);
+        grid.appendChild(
+            cell
+        );
 
     }
 
@@ -1247,24 +1246,70 @@ function drawCalendar() {
 
 
 /* =====================================================
+CLOCK
+===================================================== */
+
+function updateClock(){
+
+    const now =
+        new Date();
+
+    document.getElementById(
+        "time"
+    ).textContent =
+        now.toLocaleTimeString(
+            "en-GB",
+            {
+                hour:"numeric",
+                minute:"2-digit",
+                hour12:true
+            }
+        );
+
+    document.getElementById(
+        "date"
+    ).textContent =
+        now.toLocaleDateString(
+            "en-GB",
+            {
+                weekday:"long",
+                day:"numeric",
+                month:"long",
+                year:"numeric"
+            }
+        );
+
+}
+
+updateClock();
+
+setInterval(
+    updateClock,
+    1000
+);
+
+
+/* =====================================================
 WEATHER
 ===================================================== */
 
-const latitude = 54.548;
-const longitude = -3.586;
+const latitude=54.548;
+
+const longitude=-3.586;
 
 
-async function loadWeather() {
+async function loadWeather(){
 
-    try {
+    try{
 
         const url =
             "https://api.open-meteo.com/v1/forecast" +
-            "?latitude=" + latitude +
-            "&longitude=" + longitude +
-            "&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max" +
-            "&timezone=Europe%2FLondon" +
+            "?latitude="+latitude+
+            "&longitude="+longitude+
+            "&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max"+
+            "&timezone=Europe%2FLondon"+
             "&forecast_days=5";
+
 
         const response =
             await fetch(url);
@@ -1279,11 +1324,12 @@ async function loadWeather() {
 
         box.innerHTML = "";
 
-        for (
-            let i = 0;
-            i < 5;
+
+        for(
+            let i=0;
+            i<5;
             i++
-        ) {
+        ){
 
             const date =
                 new Date(
@@ -1292,25 +1338,31 @@ async function loadWeather() {
                 );
 
             const name =
-                i === 0
+                i===0
                 ? "Today"
                 : date.toLocaleDateString(
                     "en-GB",
-                    {weekday:"short"}
+                    {
+                        weekday:"short"
+                    }
                 );
+
 
             const code =
                 data.daily.weather_code[i];
+
 
             const high =
                 Math.round(
                     data.daily.temperature_2m_max[i]
                 );
 
+
             const low =
                 Math.round(
                     data.daily.temperature_2m_min[i]
                 );
+
 
             const rain =
                 data.daily.precipitation_probability_max[i];
@@ -1324,39 +1376,35 @@ async function loadWeather() {
             row.className =
                 "weather-day";
 
-            row.innerHTML = `
 
+            row.innerHTML =
+                `
                 <div class="weather-icon">
                     ${weatherIcon(code)}
                 </div>
 
                 <div class="weather-name">
-
-                    <strong>${name}</strong>
-                    <br>
+                    <strong>${name}</strong><br>
                     ${weatherDescription(code)}
-
                 </div>
 
                 <div class="weather-temp">
-
                     ${high}° / ${low}°
-
                 </div>
 
                 <div class="weather-extra">
-
                     💧 ${rain}% chance of rain
-
                 </div>
+                `;
 
-            `;
 
-            box.appendChild(row);
+            box.appendChild(
+                row
+            );
 
         }
 
-    } catch {
+    }catch{
 
         document.getElementById(
             "weatherDays"
@@ -1368,35 +1416,35 @@ async function loadWeather() {
 }
 
 
-function weatherIcon(code) {
+function weatherIcon(code){
 
-    if(code === 0) return "☀️";
-    if(code <= 3) return "🌤️";
-    if(code <= 48) return "🌫️";
-    if(code <= 67) return "🌧️";
-    if(code <= 77) return "🌨️";
-    if(code <= 82) return "🌦️";
-    if(code <= 86) return "🌨️";
-    if(code >= 95) return "⛈️";
+    if(code===0)return"☀️";
+    if(code<=3)return"🌤️";
+    if(code<=48)return"🌫️";
+    if(code<=67)return"🌧️";
+    if(code<=77)return"🌨️";
+    if(code<=82)return"🌦️";
+    if(code<=86)return"🌨️";
+    if(code>=95)return"⛈️";
 
-    return "🌤️";
+    return"🌤️";
 
 }
 
 
-function weatherDescription(code) {
+function weatherDescription(code){
 
-    if(code === 0) return "Clear";
-    if(code <= 3) return "Partly cloudy";
-    if(code <= 48) return "Foggy";
-    if(code <= 55) return "Drizzle";
-    if(code <= 67) return "Rain";
-    if(code <= 77) return "Snow";
-    if(code <= 82) return "Showers";
-    if(code <= 86) return "Snow showers";
-    if(code >= 95) return "Thunderstorm";
+    if(code===0)return"Clear";
+    if(code<=3)return"Partly cloudy";
+    if(code<=48)return"Foggy";
+    if(code<=55)return"Drizzle";
+    if(code<=67)return"Rain";
+    if(code<=77)return"Snow";
+    if(code<=82)return"Showers";
+    if(code<=86)return"Snow showers";
+    if(code>=95)return"Thunderstorm";
 
-    return "Cloudy";
+    return"Cloudy";
 
 }
 
@@ -1405,7 +1453,7 @@ loadWeather();
 
 setInterval(
     loadWeather,
-    30 * 60 * 1000
+    1800000
 );
 
 
@@ -1421,7 +1469,7 @@ let notes =
     );
 
 
-function displayNotes() {
+function displayNotes(){
 
     const box =
         document.getElementById(
@@ -1430,8 +1478,9 @@ function displayNotes() {
 
     box.innerHTML = "";
 
+
     notes.forEach(
-        (note,index) => {
+        (note,index)=>{
 
             const row =
                 document.createElement(
@@ -1441,21 +1490,43 @@ function displayNotes() {
             row.className =
                 "note";
 
-            row.innerHTML = `
 
-                <div class="note-text">
-                    ${escapeHTML(note)}
-                </div>
+            const text =
+                document.createElement(
+                    "div"
+                );
 
-                <button
-                    class="delete"
-                    onclick="deleteNote(${index})">
+            text.className =
+                "note-text";
 
-                    ✓
+            text.textContent =
+                note;
 
-                </button>
 
-            `;
+            const del =
+                document.createElement(
+                    "button"
+                );
+
+            del.className =
+                "delete";
+
+            del.textContent =
+                "✓";
+
+            del.onclick =
+                ()=>{
+                    notes.splice(
+                        index,
+                        1
+                    );
+
+                    saveNotes();
+                };
+
+
+            row.appendChild(text);
+            row.appendChild(del);
 
             box.appendChild(row);
 
@@ -1465,7 +1536,7 @@ function displayNotes() {
 }
 
 
-function addNote() {
+function addNote(){
 
     const input =
         document.getElementById(
@@ -1475,30 +1546,18 @@ function addNote() {
     const text =
         input.value.trim();
 
-    if(!text) return;
+    if(!text)return;
 
     notes.unshift(text);
 
-    input.value = "";
+    input.value="";
 
     saveNotes();
 
 }
 
 
-function deleteNote(index) {
-
-    notes.splice(
-        index,
-        1
-    );
-
-    saveNotes();
-
-}
-
-
-function saveNotes() {
+function saveNotes(){
 
     localStorage.setItem(
         "dashboardNotes",
@@ -1541,7 +1600,7 @@ settings.wakeDuration =
     settings.wakeDuration ?? 30;
 
 
-function loadSettings() {
+function loadSettings(){
 
     document.getElementById(
         "nightEnabled"
@@ -1571,7 +1630,7 @@ function loadSettings() {
 }
 
 
-function saveSettings() {
+function saveSettings(){
 
     settings.nightEnabled =
         document.getElementById(
@@ -1608,26 +1667,26 @@ function saveSettings() {
 }
 
 
-function minutes(value) {
+function minutes(value){
 
     const parts =
         value.split(":");
 
-    return (
-        Number(parts[0]) * 60 +
+    return(
+        Number(parts[0])*60+
         Number(parts[1])
     );
 
 }
 
 
-function isNight() {
+function isNight(){
 
     const now =
         new Date();
 
     const current =
-        now.getHours() * 60 +
+        now.getHours()*60+
         now.getMinutes();
 
     const start =
@@ -1641,24 +1700,24 @@ function isNight() {
         );
 
 
-    if(start < end) {
+    if(start<end){
 
-        return (
-            current >= start &&
-            current < end
+        return(
+            current>=start &&
+            current<end
         );
 
     }
 
-    return (
-        current >= start ||
-        current < end
+    return(
+        current>=start ||
+        current<end
     );
 
 }
 
 
-function applyDim() {
+function applyDim(){
 
     const dashboard =
         document.querySelector(
@@ -1668,12 +1727,12 @@ function applyDim() {
     if(
         settings.nightEnabled &&
         isNight()
-    ) {
+    ){
 
         dashboard.style.opacity =
-            settings.dimLevel / 100;
+            settings.dimLevel/100;
 
-    } else {
+    }else{
 
         dashboard.style.opacity =
             "1";
@@ -1688,18 +1747,12 @@ let wakeTimer;
 
 document.addEventListener(
     "click",
-    function(event) {
-
-        if(
-            event.target.closest(
-                ".settings-overlay"
-            )
-        ) return;
+    function(){
 
         if(
             settings.nightEnabled &&
             isNight()
-        ) {
+        ){
 
             const dashboard =
                 document.querySelector(
@@ -1716,7 +1769,7 @@ document.addEventListener(
             wakeTimer =
                 setTimeout(
                     applyDim,
-                    settings.wakeDuration * 1000
+                    settings.wakeDuration*1000
                 );
 
         }
@@ -1732,7 +1785,7 @@ setInterval(
 
 
 /* =====================================================
-SETTINGS LOCK
+SETTINGS BUTTON
 ===================================================== */
 
 let pressTimer;
@@ -1745,47 +1798,41 @@ const settingsButton =
 
 settingsButton.addEventListener(
     "pointerdown",
-    () => {
-
+    ()=>{
         pressTimer =
             setTimeout(
                 openSettings,
                 2000
             );
-
     }
 );
 
 
 settingsButton.addEventListener(
     "pointerup",
-    () => {
-
+    ()=>{
         clearTimeout(
             pressTimer
         );
-
     }
 );
 
 
 settingsButton.addEventListener(
     "pointerleave",
-    () => {
-
+    ()=>{
         clearTimeout(
             pressTimer
         );
-
     }
 );
 
 
-function openSettings() {
+function openSettings(){
 
     loadSettings();
 
-    displayCalendarSettings();
+    displayAccounts();
 
     document.getElementById(
         "settingsOverlay"
@@ -1795,7 +1842,7 @@ function openSettings() {
 }
 
 
-function closeSettings() {
+function closeSettings(){
 
     saveSettings();
 
@@ -1811,7 +1858,7 @@ function closeSettings() {
 RING
 ===================================================== */
 
-function openRing() {
+function openRing(){
 
     window.location.href =
         "https://ring.com/";
@@ -1820,17 +1867,21 @@ function openRing() {
 
 
 /* =====================================================
-HELPER
+PWA
 ===================================================== */
 
-function escapeHTML(text) {
+if(
+    "serviceWorker" in navigator
+){
 
-    return String(text)
-        .replaceAll("&","&amp;")
-        .replaceAll("<","&lt;")
-        .replaceAll(">","&gt;")
-        .replaceAll('"',"&quot;")
-        .replaceAll("'","&#039;");
+    window.addEventListener(
+        "load",
+        ()=>{
+            navigator.serviceWorker.register(
+                "./sw.js"
+            );
+        }
+    );
 
 }
 
@@ -1848,23 +1899,4 @@ applyDim();
 </script>
 
 </body>
-</html>                            "Google access granted",
-                            response
-                        );
-
-                        alert(
-                            "Google Calendar access granted!"
-                        );
-
-                    }
-
-                });
-
-            client.requestAccessToken();
-
-        }
-
-    </script>
-
-</body>
-</html>
+    </html>
